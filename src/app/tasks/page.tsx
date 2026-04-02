@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+import { cacheLife } from 'next/cache'
 import TaskList from '@/src/components/TaskList/TaskList'
 
 type Todo = {
@@ -7,13 +9,23 @@ type Todo = {
   completed: boolean
 }
 
-export default async function TasksPage() {
+async function getTasks(): Promise<Todo[]> {
+  'use cache'
+  cacheLife('hours')
+
+  console.log('Запрос к API выполнен!')
   const res = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
-  const todos: Todo[] = await res.json()
+  return res.json()
+}
+
+export default async function TasksPage() {
+  const todos = await getTasks()
 
   return (
     <main>
-      <TaskList todos={todos} />
+        <Suspense fallback={<p>Загрузка...</p>}>
+          <TaskList todos={todos} />
+        </Suspense>
     </main>
   )
 }
