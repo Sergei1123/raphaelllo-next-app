@@ -1,0 +1,7 @@
+{
+  "welcome": "Добро пожаловать, {{name}}!",
+  "items_one": "{{count}} элемент",
+  "items_few": "{{count}} элемента",
+  "items_many": "{{count}} элементов",
+  "description": "На этой странице <bold>{{count}}</bold> элементов"
+}
